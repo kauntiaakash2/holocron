@@ -47,6 +47,10 @@ export function MissionSection() {
 
 /** Remaining event content follows the released mission in normal document flow. */
 export function HomeSections() {
+  const registrationOpen =
+    process.env.REGISTRATION_OPEN === "true" &&
+    process.env.POLICY_APPROVED === "true";
+
   return (
     <>
       <ArchiveReveal>
@@ -67,7 +71,10 @@ export function HomeSections() {
               Leave your mark on the archive.
             </p>
             <Link href="/register" className="button">
-              INITIATE REGISTRATION <span>↗</span>
+              {registrationOpen
+                ? "INITIATE REGISTRATION"
+                : "REGISTRATION COMING SOON"}{" "}
+              <span>↗</span>
             </Link>
           </div>
           <dl>
@@ -92,7 +99,8 @@ export function HomeSections() {
           <span className="eyebrow">THE NEXT CHAPTER IS NOT WRITTEN YET.</span>
           <h2 data-archive-reveal="closing">It has your name on it.</h2>
           <Link href="/register" className="button">
-            JOIN THE ARCHIVE <span>↗</span>
+            {registrationOpen ? "JOIN THE ARCHIVE" : "COMING SOON"}{" "}
+            <span>↗</span>
           </Link>
           <svg
             className="giant-wordmark"
