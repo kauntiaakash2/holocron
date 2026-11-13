@@ -1,0 +1,84 @@
+.reveal {
+  position: relative;
+  isolation: isolate;
+}
+/* One motion language, with an emphasis suited to each section's content.
+   Only inner content moves; section anchors, card borders and CTAs stay put. */
+.reveal [data-archive-reveal] {
+  --reveal-distance: 0px;
+  --reveal-start-opacity: 0.35;
+  --reveal-duration: 600ms;
+}
+.reveal [data-archive-reveal="heading"] {
+  --reveal-distance: 14px;
+  --reveal-start-opacity: 0;
+  --reveal-duration: 720ms;
+}
+.reveal [data-archive-reveal="card"] {
+  --reveal-distance: 8px;
+  --reveal-start-opacity: 0;
+  --reveal-duration: 520ms;
+}
+.reveal [data-archive-reveal="closing"] {
+  --reveal-duration: 800ms;
+}
+.reveal [data-reveal-state="armed"]:not([data-archive-reveal="detail"]) {
+  opacity: var(--reveal-start-opacity);
+  transform: translateY(var(--reveal-distance));
+}
+.reveal [data-reveal-state="playing"]:not([data-archive-reveal="detail"]) {
+  animation: settle var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1)
+    var(--reveal-delay, 0ms) both;
+}
+/* Essential event data stays readable. Only its fine rules draw into place. */
+.reveal [data-archive-reveal="detail"] {
+  position: relative;
+}
+.reveal [data-archive-reveal="detail"][data-reveal-state="armed"],
+.reveal [data-archive-reveal="detail"][data-reveal-state="playing"] {
+  border-bottom-color: transparent;
+}
+.reveal [data-archive-reveal="detail"][data-reveal-state="playing"]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left;
+  pointer-events: none;
+  animation: rule 550ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes settle {
+  from {
+    opacity: var(--reveal-start-opacity);
+    transform: translateY(var(--reveal-distance));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal [data-reveal-state]:not([data-archive-reveal="detail"]) {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .reveal [data-archive-reveal="detail"][data-reveal-state] {
+    border-bottom-color: var(--line);
+  }
+  .reveal [data-reveal-state]::after {
+    display: none;
+    animation: none;
+  }
+}

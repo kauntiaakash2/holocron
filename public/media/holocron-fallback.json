@@ -1,0 +1,10 @@
+{
+  "source": "holocron-web.zip/holocron-web/holocron.js",
+  "method": "CPU-shaded projection of the integrated procedural model; not a WebGL render",
+  "size": [
+    640,
+    640
+  ],
+  "staticMeshes": 7,
+  "visibleTriangles": 17926
+}

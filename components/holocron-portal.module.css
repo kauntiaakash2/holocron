@@ -1,0 +1,173 @@
+.journey {
+  position: relative;
+  isolation: isolate;
+}
+.runway,
+.pin,
+.hero,
+.mission,
+.rest {
+  position: relative;
+}
+.runway {
+  overflow-anchor: none;
+}
+.hero {
+  min-height: 100svh;
+}
+.mission {
+  min-height: 100svh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+.mission > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+.rest {
+  z-index: 2;
+}
+/* A full-width headline anchors the portal destination. The explanation
+   follows below, rather than squeezing the display type beside dense copy. */
+.mission :global(.mission.section) {
+  padding-block: clamp(32px, 4svh, 48px) 40px;
+  border-bottom: 0;
+}
+.mission :global(.mission-body) {
+  display: block;
+  margin-top: clamp(28px, 4svh, 48px);
+}
+.mission :global(#mission h2) {
+  margin: 0;
+  font-size: clamp(52px, 5.8vw, 96px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+.mission :global(#mission h2 span) {
+  display: block;
+  color: var(--gold);
+}
+.mission :global(.mission-text) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(32px, 5vw, 80px);
+  margin-top: clamp(32px, 5svh, 56px);
+  padding-top: clamp(24px, 3svh, 36px);
+  border-top: 1px solid var(--line);
+}
+.mission :global(.mission-text p) {
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.75;
+  max-width: 48ch;
+  margin: 0;
+}
+.mission :global(.mission-story p + p) {
+  margin-top: 16px;
+}
+.mission :global(.mission-text .principle) {
+  border: 0;
+  padding: 0;
+  font-size: clamp(20px, 1.65vw, 25px);
+  line-height: 1.55;
+  margin-block: 12px 20px;
+}
+.mission :global(.mission-purpose > .eyebrow) {
+  display: block;
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 1px;
+}
+.mission :global(.mission-purpose > .eyebrow:last-child) {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+@media (max-width: 767px) {
+  .mission :global(.mission.section) {
+    padding-block: 32px 36px;
+  }
+  .mission :global(#mission h2) {
+    font-size: clamp(34px, 7.8vw, 56px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .mission :global(.mission-text) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    margin-top: 28px;
+    padding-top: 24px;
+  }
+  .mission :global(.mission-text .principle) {
+    font-size: 20px;
+    margin-block: 10px 16px;
+  }
+}
+@media (max-height: 600px) and (min-width: 768px) {
+  .mission :global(.mission.section) {
+    padding-block: 28px 32px;
+  }
+  .mission :global(#mission h2) {
+    font-size: clamp(48px, 5vw, 72px);
+  }
+}
+/* Pin the source and destination together. Padding/overlap cannot do this:
+   that lets the destination scroll upward like a straight-edged curtain. */
+.journey[data-enabled="true"] .runway {
+  height: calc(
+    var(--portal-travel, 100svh) + var(--portal-panel-height, 100svh)
+  );
+}
+.journey[data-enabled="true"] .pin {
+  position: sticky;
+  top: 0;
+}
+.journey[data-enabled="true"] .hero {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 100svh;
+}
+.journey[data-enabled="true"] .mission {
+  z-index: 2;
+}
+.water {
+  position: fixed;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.journey[data-enabled="true"] .mission :global(#mission [data-reveal-state]) {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+.journey[data-enabled="true"]:not([data-phase="open"]):not(
+    [data-phase="bypassed"]
+  )
+  :global([data-mission-marquee-track]) {
+  /* Keep the destination still while it is being clipped. */
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey[data-enabled] .runway {
+    height: auto;
+  }
+  .journey[data-enabled] .pin {
+    position: relative;
+  }
+  .journey[data-enabled] .hero {
+    position: relative;
+    height: auto;
+  }
+  .journey[data-enabled] .mission {
+    clip-path: none !important;
+  }
+  .water {
+    display: none;
+  }
+}

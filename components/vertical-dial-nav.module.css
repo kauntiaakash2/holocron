@@ -1,0 +1,183 @@
+.shell {
+  position: fixed;
+  z-index: 40;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  color: var(--muted);
+  pointer-events: none;
+  animation: arrive 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.dial {
+  position: relative;
+  height: min(430px, 90svh);
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: auto;
+}
+.dial::before {
+  content: "";
+  position: absolute;
+  inset: 8% 0;
+  background: radial-gradient(
+    ellipse at right,
+    rgb(85 221 243 / 4%),
+    transparent 72%
+  );
+  pointer-events: none;
+}
+.scale {
+  position: absolute;
+  width: 200px;
+  height: 430px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--line);
+  mask-image: linear-gradient(transparent, #000 28%, #000 72%, transparent);
+  stroke-width: 1;
+  pointer-events: none;
+}
+.items {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 170px;
+  transform-origin: right center;
+  transform: translate(var(--wheel-x), var(--wheel-y))
+    rotate(var(--wheel-angle));
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.item a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  min-height: 44px;
+  width: 100%;
+  padding: 8px 0 8px 5px;
+  color: var(--muted);
+  font: 500 13px/1.45 var(--ui);
+  white-space: nowrap;
+  text-shadow: 0 1px 6px var(--bg);
+  transition: color 0.15s ease;
+}
+.label {
+  min-width: 0;
+}
+.number {
+  flex-shrink: 0;
+  font: 10px var(--mono);
+}
+.tick {
+  width: 9px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.item a[aria-current] {
+  color: var(--gold);
+}
+.item a[aria-current] .tick {
+  height: 3px;
+}
+.item a:hover {
+  color: var(--text);
+}
+.item a:focus-visible {
+  outline: 1px solid var(--cyan);
+  outline-offset: -3px;
+}
+.toggle {
+  display: none;
+}
+@keyframes arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (max-width: 1100px), (max-height: 520px) {
+  .shell {
+    top: auto;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    right: max(14px, env(safe-area-inset-right));
+    width: auto;
+    transform: none;
+  }
+  .toggle {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 64px;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-color: var(--line);
+    border-top-color: var(--gold);
+    background: var(--bg);
+    color: var(--text);
+    pointer-events: auto;
+    font: 500 14px var(--ui);
+  }
+  .dial {
+    display: none;
+    position: absolute;
+    bottom: 56px;
+    right: 0;
+    width: min(240px, calc(100vw - 32px));
+    height: auto;
+    max-height: calc(100svh - 100px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--bg);
+    border-block: 1px solid var(--line);
+    border-inline: 0;
+    box-shadow: -18px 0 36px 0 var(--bg);
+  }
+  .items {
+    position: relative;
+    top: auto;
+    transform: none;
+    display: grid;
+    gap: 10px;
+    padding: 18px 0;
+  }
+  .item {
+    position: relative;
+    width: 100%;
+    transform: none !important;
+    transition: none;
+  }
+  .item a {
+    padding: 12px 20px 12px 12px;
+    font-size: 14px;
+  }
+  .dial::before {
+    display: none;
+  }
+  .shell[data-open="true"] .dial {
+    display: block;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shell {
+    animation: none;
+  }
+  .item,
+  .item a {
+    transition: none;
+  }
+}

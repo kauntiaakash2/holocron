@@ -1,0 +1,126 @@
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  color: #69b9d0;
+}
+.backlight {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 30% 43% at 50% 47%,
+      #28769b38,
+      #12344b17 65%,
+      transparent
+    ),
+    radial-gradient(ellipse 26% 24% at 52% 62%, #ba854a12, transparent 85%);
+}
+.shaft,
+.warmShaft {
+  position: absolute;
+  top: -45%;
+  left: 50%;
+  width: min(38vw, 500px);
+  height: 125%;
+  transform-origin: top center;
+  transform: translateX(-50%) rotate(-20deg);
+  background: linear-gradient(
+    180deg,
+    transparent 10%,
+    #73bfdb08 48%,
+    #5099b41b 78%,
+    transparent
+  );
+  clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%);
+  filter: blur(18px);
+}
+.warmShaft {
+  left: 61%;
+  transform: translateX(-50%) rotate(24deg);
+  width: min(23vw, 300px);
+  opacity: 0.5;
+  background: linear-gradient(
+    180deg,
+    transparent 15%,
+    #dfb67510 60%,
+    transparent
+  );
+}
+.wordmark {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  user-select: none;
+}
+.wordmark text {
+  font: 400 230px var(--display);
+  letter-spacing: -5px;
+  stroke: #c0d5dd;
+  stroke-opacity: 0.18;
+  stroke-width: 0.5px;
+}
+.ember {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #bdcfd9;
+  opacity: 0.28;
+  animation: rise var(--duration) ease-in-out var(--delay) infinite;
+  animation-play-state: paused;
+}
+.ember:nth-of-type(3n) {
+  background: var(--gold);
+}
+.atmosphere[data-moving="true"] .ember {
+  animation-play-state: running;
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 47%,
+    transparent 30%,
+    #03050980 80%,
+    #030509 100%
+  );
+}
+@keyframes rise {
+  0%,
+  100% {
+    transform: translate3d(0, 9px, 0);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translate3d(5px, -14px, 0);
+    opacity: 0.6;
+  }
+}
+@media (max-width: 600px) {
+  .backlight {
+    background: radial-gradient(
+      ellipse 50% 32% at 50% 48%,
+      #28769b38,
+      transparent 85%
+    );
+  }
+  .wordmark {
+    left: -4%;
+    width: 108%;
+  }
+  .shaft {
+    width: 75vw;
+    opacity: 0.65;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ember {
+    animation: none;
+  }
+}
